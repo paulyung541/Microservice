@@ -1,0 +1,13 @@
+CREATE TABLE `user` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(64) NOT NULL DEFAULT '',
+    `account` VARCHAR(64) NOT NULL DEFAULT '',
+    `password` VARCHAR(64) NOT NULL DEFAULT '',
+    PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci
+
+CREATE TABLE `class` (
+    `id` INT AUTO_INCREMENT,
+    `name` VARCHAR(128) NOT NULL DEFAULT '',
+    PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci

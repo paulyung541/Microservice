@@ -1,0 +1,30 @@
+// protoc auth.proto --go_out=plugins=grpc:. 
+
+syntax = "proto3";
+
+message SignUpRequest {
+    string name = 1;
+    string account = 2;
+    string password = 3;
+}
+
+message SignUpReply {
+    string success = 1;
+    string msg = 2;
+}
+
+message LoginRequest {
+    string account = 1;
+    string password = 2;
+}
+
+message LoginReply {
+    string success = 1;
+    string token = 2;
+}
+
+service AuthService {
+    rpc SignUp(SignUpRequest) returns (SignUpReply) {}
+
+    rpc Login(LoginRequest) returns (LoginReply) {}
+}
