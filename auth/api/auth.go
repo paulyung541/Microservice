@@ -1,12 +1,12 @@
 package api
 
 import (
-	"fmt"
-	"log"
 	"Microservice/auth/model"
 	"Microservice/auth/services"
 	pb "Microservice/idls/outfile/auth"
-	
+	"fmt"
+	"log"
+
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"

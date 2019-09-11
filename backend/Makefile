@@ -1,6 +1,6 @@
 GO    					:= go
 
-PROJECT_NAME            ?= auth
+PROJECT_NAME            ?= backend
 
 SHELL_CMD               ?= zsh
 TESTARGS                ?= -v -race
@@ -38,20 +38,19 @@ test:
 
 .PHONY: fmt
 fmt:
-	@find . -name "*.go" | xargs -i gofmt -w {}
-	# @goimports -w $(find . -name "*.go")
+	@gofmt -w cmd/backend/main.go
+	@goimports -w cmd/backend/main.go
+
+	@gofmt -w api/auth.go
+	@goimports -w api/auth.go
+
+	@gofmt -w api/init.go
+	@goimports -w api/init.go
 
 .PHONY: lint
 lint:
 	@echo ">> linting code"
-	@gometalinter --vendor --disable-all \
-		--enable=varcheck \
-		--enable=misspell \
-		--enable=vet \
-		--enable=vetshadow \
-		--enable=golint \
-		--deadline=10m \
-		./...
+	@golint ./...
 
 
 .PHONY: fmtcheck
