@@ -1,12 +1,14 @@
 package main
 
 import (
+	"Microservice/backend/api"
+
 	"log"
 	"net/http"
 	"time"
-
-	"Microservice/backend/api"
 )
+
+const port = ":8080"
 
 func main() {
 	router := api.InitAPI()
@@ -15,7 +17,7 @@ func main() {
 		pingServer()
 	}()
 
-	router.Run(":8080") // listen and serve on 0.0.0.0:8080
+	router.Run(port) // listen and serve on 0.0.0.0:8080
 }
 
 // 服务器健康检查

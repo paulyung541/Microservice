@@ -84,6 +84,9 @@ func login(c *gin.Context) {
 
 func classList(c *gin.Context) {
 
+	c.JSON(200, gin.H{
+		"success": true,
+	})
 }
 
 func addClass(c *gin.Context) {

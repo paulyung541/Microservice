@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	Microservice/idls v0.0.0
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.4.0
 	github.com/golang/protobuf v1.3.2
 	golang.org/x/net v0.0.0

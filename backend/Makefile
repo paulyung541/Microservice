@@ -38,15 +38,9 @@ test:
 
 .PHONY: fmt
 fmt:
-	@gofmt -w cmd/backend/main.go
-	@goimports -w cmd/backend/main.go
-
-	@gofmt -w api/auth.go
-	@goimports -w api/auth.go
-
-	@gofmt -w api/init.go
-	@goimports -w api/init.go
-
+	@find . -name "*.go" | xargs goimports -w
+	@find . -name "*.go" | xargs gofmt -w
+	
 .PHONY: lint
 lint:
 	@echo ">> linting code"

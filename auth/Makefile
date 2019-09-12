@@ -38,8 +38,8 @@ test:
 
 .PHONY: fmt
 fmt:
-	@find . -name "*.go" | xargs -i gofmt -w {}
-	# @goimports -w $(find . -name "*.go")
+	@find . -name "*.go" | xargs goimports -w
+	@find . -name "*.go" | xargs gofmt -w
 
 .PHONY: lint
 lint:
