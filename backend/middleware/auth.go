@@ -42,7 +42,7 @@ func parseRequest(c *gin.Context) (*model.User, error) {
 		return nil, errMissingHeader
 	}
 
-	return parse(authorization, constants.JwtSecretString)
+	return parse(authorization, constants.JWTSecretString)
 }
 
 func parse(tokenString string, secret string) (*model.User, error) {
@@ -56,6 +56,7 @@ func parse(tokenString string, secret string) (*model.User, error) {
 		user.Account = claims["account"].(string)
 		user.Exp = int64(claims["exp"].(float64))
 
+		// 当前时间大于了过期时间，则token已过期，需要重新登录
 		if time.Now().Unix() > user.Exp {
 			return user, errTokenExpired
 		}

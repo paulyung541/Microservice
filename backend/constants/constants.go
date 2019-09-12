@@ -1,3 +1,3 @@
 package constants
 
-const JwtSecretString = "myproject"
+const JWTSecretString = "myproject"
