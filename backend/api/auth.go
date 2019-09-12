@@ -24,7 +24,6 @@ func init() {
 	if err != nil {
 		log.Fatal("grpc connect fail")
 	}
-	defer conn.Close()
 
 	authClient = AuthClient{
 		authpb.NewAuthServiceClient(conn),

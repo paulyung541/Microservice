@@ -24,6 +24,10 @@ run:
 	@echo ">>>running $(PROJECT_NAME)"
 	@$(GO) run cmd/$(PROJECT_NAME)/main.go
 
+.PHONY: debug
+debug:
+	@dlv debug cmd/$(PROJECT_NAME)/main.go
+
 .PHONY: setup
 setup:
 	@echo ">> installing dependencies"

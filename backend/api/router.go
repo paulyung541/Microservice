@@ -2,6 +2,8 @@ package api
 
 import (
 	"Microservice/backend/middleware"
+	"fmt"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +20,20 @@ import (
 func InitAPI() *gin.Engine {
 	router := gin.Default()
 
+	// 自定义日志格式
+	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
+
+		// your custom format
+		return fmt.Sprintf("[%s] \"%s %s %d %s \"%s\" \"\n",
+			param.TimeStamp.Format(time.RFC1123),
+			param.Method,
+			param.Path,
+			param.StatusCode,
+			param.Latency,
+			param.ErrorMessage,
+		)
+	}))
+
 	router.HEAD("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
 	})
@@ -30,10 +46,10 @@ func InitAPI() *gin.Engine {
 
 	// 需要验证登录
 	school := router.Group("/school")
+	school.Use(middleware.AuthMiddleware())
 	{
 		school.GET("/class", classList)
 		school.POST("/class", addClass)
 	}
-	school.Use(middleware.AuthMiddleware())
 	return router
 }

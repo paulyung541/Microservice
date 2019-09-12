@@ -1,6 +1,7 @@
 package api
 
 import (
+	"Microservice/auth/constants"
 	"Microservice/auth/model"
 	"Microservice/auth/services"
 	pb "Microservice/idls/outfile/auth"
@@ -40,10 +41,10 @@ func (s *Serv) Login(c context.Context, in *pb.LoginRequest) (*pb.LoginReply, er
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"userName": user.Name,
 		"account":  user.Account,
-		"exp":      time.Now().Add(1 * time.Hour).Unix(),
+		"exp":      time.Now().Add(-1 * time.Hour).Unix(),
 	})
 
-	tokenString, err := token.SignedString([]byte("myproject"))
+	tokenString, err := token.SignedString([]byte(constants.JwtSecretString))
 	if err != nil {
 		return &pb.LoginReply{Success: "false"}, err
 	}

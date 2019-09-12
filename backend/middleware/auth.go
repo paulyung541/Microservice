@@ -1,24 +1,30 @@
 package middleware
 
 import (
+	"Microservice/backend/constants"
 	"Microservice/backend/model"
 	"errors"
+	"log"
 	"net/http"
+	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
-// ErrMissingHeader 缺少Authorization
-var errMissingHeader = errors.New("The length of the `Authorization` header is zero.")
+var (
+	errMissingHeader = errors.New("The length of the `Authorization` header is zero.") // 缺少 token
+	errTokenExpired  = errors.New("token had been expired.")                           // token 过期
+)
 
 // AuthMiddleware gin的验证登录拦截器
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if _, err := parseRequest(c); err != nil {
+			log.Println(err.Error())
 			c.JSON(http.StatusOK, gin.H{
 				"success": false,
-				"msg":     "未登陆",
+				"msg":     "验证无效: " + err.Error(),
 			})
 			c.Abort()
 			return
@@ -30,14 +36,13 @@ func AuthMiddleware() gin.HandlerFunc {
 
 // parseRequest 解析 Header 中的Authorization
 func parseRequest(c *gin.Context) (*model.User, error) {
-	header := c.Request.Header.Get("Authorization")
+	authorization := c.Request.Header.Get("Authorization")
 
-	if len(header) == 0 {
+	if len(authorization) == 0 {
 		return nil, errMissingHeader
 	}
 
-	var t string
-	return parse(t, "myproject")
+	return parse(authorization, constants.JwtSecretString)
 }
 
 func parse(tokenString string, secret string) (*model.User, error) {
@@ -49,7 +54,11 @@ func parse(tokenString string, secret string) (*model.User, error) {
 	} else if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		user.Name = claims["userName"].(string)
 		user.Account = claims["account"].(string)
-		user.Exp = claims["exp"].(int64)
+		user.Exp = int64(claims["exp"].(float64))
+
+		if time.Now().Unix() > user.Exp {
+			return user, errTokenExpired
+		}
 
 		return user, nil
 	} else {
