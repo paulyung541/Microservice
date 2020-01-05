@@ -1,0 +1,11 @@
+[mysql.main]
+    dsn = "root:@tcp(localhost:3306)/test?charset=utf8&parseTime=True&loc=Local"
+    maxIdle = 5
+    maxOpen = 10
+
+# [log.default]
+#     file = "/Users/yang/Documents/program/go_new/github/jotnar/example/d.log"
+#     level = "debug"
+#     format = "json"
+#     timeFormat = "2006-01-02 15:04:05.000000"
+#     isPretty = true

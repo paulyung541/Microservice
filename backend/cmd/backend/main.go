@@ -13,9 +13,9 @@ const port = ":8080"
 func main() {
 	router := api.InitAPI()
 
-	go func() {
-		pingServer()
-	}()
+	// go func() {
+	// 	pingServer()
+	// }()
 
 	router.Run(port) // listen and serve on 0.0.0.0:8080
 }

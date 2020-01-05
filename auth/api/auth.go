@@ -1,8 +1,7 @@
 package api
 
 import (
-	"fmt"
-	"log"
+	"github.com/paulyung541/jotnar"
 	"time"
 
 	"Microservice/auth/constants"
@@ -21,10 +20,10 @@ type Serv struct {
 
 // SignUp xxx
 func (s *Serv) SignUp(c context.Context, in *pb.SignUpRequest) (*pb.SignUpReply, error) {
-	fmt.Printf("name = %s, account = %s\n", in.Name, in.Account)
+	jotnar.GetLogger().Infof("name = %s, account = %s\n", in.Name, in.Account)
 	err := s.AddUser(&model.User{Name: in.Name, Account: in.Account, Password: in.Password})
 	if err != nil {
-		log.Println("注册失败", err.Error())
+		jotnar.GetLogger().Error("注册失败", err.Error())
 		return &pb.SignUpReply{Success: "false", Msg: "注册失败"}, err
 	}
 	return &pb.SignUpReply{Success: "true", Msg: "注册成功"}, nil
@@ -48,5 +47,6 @@ func (s *Serv) Login(c context.Context, in *pb.LoginRequest) (*pb.LoginReply, er
 		return &pb.LoginReply{Success: "false"}, err
 	}
 
+	jotnar.GetLogger().Info("登录成功")
 	return &pb.LoginReply{Success: "true", Token: tokenString}, nil
 }

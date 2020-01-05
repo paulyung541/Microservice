@@ -36,6 +36,7 @@ func InitAPI() *gin.Engine {
 
 	router.HEAD("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
+		fmt.Printf("domain = %s\n", c.Request.RequestURI)
 	})
 
 	auth := router.Group("/auth")
